@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Placetovisit
  *
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Placetovisit
 {
+
     /**
      * @var int
      *
@@ -25,6 +28,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Name", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="Place name cannot be blank")
      */
     private $placeName;
 
@@ -32,6 +36,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="CityName", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="City name cannot be blank")
      */
     private $cityname;
 
@@ -39,6 +44,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Type", type="string", length=30, nullable=false)
+     * @Assert\NotBlank(message="Place type cannot be blank")
      */
     private $placeType;
 
@@ -46,6 +52,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Description", type="string", length=230, nullable=false)
+     * @Assert\NotBlank(message="Place description cannot be blank")
      */
     private $placeDescription;
 
@@ -53,6 +60,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Address", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(message="Place address cannot be blank")
      */
     private $placeAddress;
 
@@ -60,13 +68,15 @@ class Placetovisit
      * @var float|null
      *
      * @ORM\Column(name="Tickets_Price", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
+     * @Assert\Type(type="float", message="Tickets price must be a number")
      */
-    private $ticketsPrice = NULL;
+    private $ticketsPrice = null;
 
     /**
      * @var string
      *
      * @ORM\Column(name="Place_Img", type="string", length=120, nullable=false)
+     * @Assert\NotBlank(message="Place image cannot be blank")
      */
     private $placeImg;
 
@@ -74,6 +84,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_img2", type="string", length=120, nullable=false)
+     * @Assert\NotBlank(message="Place image cannot be blank")
      */
     private $placeImg2;
 
@@ -81,6 +92,7 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Img3", type="string", length=120, nullable=false)
+     * @Assert\NotBlank(message="Place image cannot be blank")
      */
     private $placeImg3;
 

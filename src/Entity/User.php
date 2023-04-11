@@ -302,53 +302,8 @@ class User
         return $this;
     }
 
-    public function getDatebeg(): ?\DateTimeInterface
-    {
-        return $this->datebeg;
-    }
+ 
 
-    public function setDatebeg(?\DateTimeInterface $datebeg): self
-    {
-        $this->datebeg = $datebeg;
-
-        return $this;
-    }
-
-    public function getDateend(): ?\DateTimeInterface
-    {
-        return $this->dateend;
-    }
-
-    public function setDateend(?\DateTimeInterface $dateend): self
-    {
-        $this->dateend = $dateend;
-
-        return $this;
-    }
-
-    public function isDisponibility(): ?bool
-    {
-        return $this->disponibility;
-    }
-
-    public function setDisponibility(?bool $disponibility): self
-    {
-        $this->disponibility = $disponibility;
-
-        return $this;
-    }
-
-    public function getIdRelation(): ?int
-    {
-        return $this->idRelation;
-    }
-
-    public function setIdRelation(?int $idRelation): self
-    {
-        $this->idRelation = $idRelation;
-
-        return $this;
-    }
 
 
 }

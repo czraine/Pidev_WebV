@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
+
 
 #[Route('/placetovisit')]
 class PlacetovisitController extends AbstractController
@@ -29,22 +32,25 @@ class PlacetovisitController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $placetovisit = new Placetovisit();
-        $form = $this->createForm(PlacetovisitType::class, $placetovisit);
+        $form = $this->createForm(PlacetovisitType::class, $placetovisit)
+        ->add('Save', SubmitType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($placetovisit);
             $entityManager->flush();
+    
+            $this->addFlash('success', 'Place to visit added!');
+            $form = $form->get('Save');
 
-            return $this->redirectToRoute('app_placetovisit_index', [], Response::HTTP_SEE_OTHER);
+    
+            return $this->redirectToRoute('app_placetovisit_index');
         }
-
-        return $this->renderForm('placetovisit/new.html.twig', [
+    
+        return $this->render('placetovisit/new.html.twig', [
             'placetovisit' => $placetovisit,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
-
     #[Route('/{placeId}', name: 'app_placetovisit_show', methods: ['GET'])]
     public function show(Placetovisit $placetovisit): Response
     {
@@ -52,6 +58,8 @@ class PlacetovisitController extends AbstractController
             'placetovisit' => $placetovisit,
         ]);
     }
+    
+    
 
     #[Route('/{placeId}/edit', name: 'app_placetovisit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Placetovisit $placetovisit, EntityManagerInterface $entityManager): Response

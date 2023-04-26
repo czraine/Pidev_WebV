@@ -17,7 +17,12 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "build": "encore production",
-    "watch": "encore dev --watch",
-    "build:manifest": "encore production --json > public/build/manifest.json"
+        "watch": "encore dev --watch",
+        "build:manifest": "encore production --json > public/build/manifest.json"
+    },
+    "dependencies": {
+        "bootstrap": "^5.2.3",
+        "encore": "^0.0.30-beta",
+        "production": "^0.0.2"
     }
 }

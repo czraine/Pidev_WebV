@@ -11,9 +11,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\SubmitButton;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Service\UploaderService;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use App\Entity\User;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-#[Route('/placetovisit')]
+
+
+
+
+#[Route('admin/placetovisit'),IsGranted('Admin')]
 class PlacetovisitController extends AbstractController
 {
     #[Route('/', name: 'app_placetovisit_index', methods: ['GET'])]
@@ -29,20 +40,38 @@ class PlacetovisitController extends AbstractController
     }
 
     #[Route('/new', name: 'app_placetovisit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(/*#[CurrentUser] User $idUser,*/Request $request, EntityManagerInterface $entityManager, UploaderService $uploaderService): Response
     {
         $placetovisit = new Placetovisit();
         $form = $this->createForm(PlacetovisitType::class, $placetovisit)
-        ->add('Save', SubmitType::class);
+            ->add('Save', SubmitType::class);
         $form->handleRequest($request);
+        // dump($idUser);
+        dump($this->getUser());
+
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $photo1 = $form->get('placeImg')->getData();
+            if ($photo1) {
+                $directory = $this->getParameter('images_directory');
+                $placetovisit->setPlaceImg($uploaderService->uploadFile($photo1, $directory));
+            }
+    
+            $photo2 = $form->get('placeImg2')->getData();
+            if ($photo2) {
+                $directory = $this->getParameter('images_directory');
+                $placetovisit->setPlaceImg2($uploaderService->uploadFile($photo2, $directory));
+            }
+    
+            $photo3 = $form->get('placeImg3')->getData();
+            if ($photo3) {
+                $directory = $this->getParameter('images_directory');
+                $placetovisit->setPlaceImg3($uploaderService->uploadFile($photo3, $directory));
+            }
+            
             $entityManager->persist($placetovisit);
             $entityManager->flush();
-    
             $this->addFlash('success', 'Place to visit added!');
-            $form = $form->get('Save');
-
-    
             return $this->redirectToRoute('app_placetovisit_index');
         }
     
@@ -51,6 +80,9 @@ class PlacetovisitController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
+    
+    
     #[Route('/{placeId}', name: 'app_placetovisit_show', methods: ['GET'])]
     public function show(Placetovisit $placetovisit): Response
     {
@@ -62,14 +94,32 @@ class PlacetovisitController extends AbstractController
     
 
     #[Route('/{placeId}/edit', name: 'app_placetovisit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Placetovisit $placetovisit, EntityManagerInterface $entityManager): Response
+    public function edit( UploaderService $uploaderService,Request $request, Placetovisit $placetovisit, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PlacetovisitType::class, $placetovisit);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $photo1 = $form->get('placeImg')->getData();
+            if ($photo1) {
+                $directory = $this->getParameter('images_directory');
+                $placetovisit->setPlaceImg($uploaderService->uploadFile($photo1, $directory));
+            }
+    
+            $photo2 = $form->get('placeImg2')->getData();
+            if ($photo2) {
+                $directory = $this->getParameter('images_directory');
+                $placetovisit->setPlaceImg2($uploaderService->uploadFile($photo2, $directory));
+            }
+    
+            $photo3 = $form->get('placeImg3')->getData();
+            if ($photo3) {
+                $directory = $this->getParameter('images_directory');
+                $placetovisit->setPlaceImg3($uploaderService->uploadFile($photo3, $directory));
+            } else {
+                $message = " a été mis à jour avec succès";
+            }
+            $entityManager->persist($placetovisit);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_placetovisit_index', [], Response::HTTP_SEE_OTHER);
         }
 

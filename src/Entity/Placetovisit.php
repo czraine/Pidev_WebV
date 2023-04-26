@@ -3,8 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
+
+
 
 /**
  * Placetovisit
@@ -14,7 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Placetovisit
 {
-
     /**
      * @var int
      *
@@ -28,7 +32,11 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Name", type="string", length=30, nullable=false)
-     * @Assert\NotBlank(message="Place name cannot be blank")
+     * @Assert\NotBlank(message="The place name cannot be blank.")
+     * @Assert\Length(
+     *      max = 30,
+     *      maxMessage = "The place name cannot be longer than {{ limit }} characters."
+     * )
      */
     private $placeName;
 
@@ -36,7 +44,11 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="CityName", type="string", length=30, nullable=false)
-     * @Assert\NotBlank(message="City name cannot be blank")
+     * @Assert\NotBlank(message="The city name cannot be blank.")
+     * @Assert\Length(
+     *      max = 30,
+     *      maxMessage = "The city name cannot be longer than {{ limit }} characters."
+     * )
      */
     private $cityname;
 
@@ -44,7 +56,11 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Type", type="string", length=30, nullable=false)
-     * @Assert\NotBlank(message="Place type cannot be blank")
+     * @Assert\NotBlank(message="The place type cannot be blank.")
+     * @Assert\Length(
+     *      max = 30,
+     *      maxMessage = "The place type cannot be longer than {{ limit }} characters."
+     * )
      */
     private $placeType;
 
@@ -52,7 +68,11 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Description", type="string", length=230, nullable=false)
-     * @Assert\NotBlank(message="Place description cannot be blank")
+     * @Assert\NotBlank(message="The place description cannot be blank.")
+     * @Assert\Length(
+     *      max = 230,
+     *      maxMessage = "The place description cannot be longer than {{ limit }} characters."
+     * )
      */
     private $placeDescription;
 
@@ -60,41 +80,62 @@ class Placetovisit
      * @var string
      *
      * @ORM\Column(name="Place_Address", type="string", length=100, nullable=false)
-     * @Assert\NotBlank(message="Place address cannot be blank")
+     * @Assert\NotBlank(message="The place address cannot be blank.")
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "The place address cannot be longer than {{ limit }} characters."
+     * )
      */
     private $placeAddress;
 
     /**
      * @var float|null
      *
-     * @ORM\Column(name="Tickets_Price", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
-     * @Assert\Type(type="float", message="Tickets price must be a number")
+     * @ORM\Column(name="Tickets_Price", type="float", precision=10, scale=0, nullable=true)
+     * @Assert\PositiveOrZero(message="The ticket price cannot be negative.")
      */
-    private $ticketsPrice = null;
+    private $ticketsPrice = NULL;
 
     /**
      * @var string
      *
      * @ORM\Column(name="Place_Img", type="string", length=120, nullable=false)
-     * @Assert\NotBlank(message="Place image cannot be blank")
+     * @Assert\NotBlank(message="The place image cannot be blank.")
+     * @Assert\Length(
+     *      max = 120,
+     *      maxMessage = "The place image path cannot be longer than {{ limit }} characters."
+     * )
      */
+
+ /**
+* @var string
+*
+* @ORM\Column(name="Place_Img", type="string", length=120, nullable=false)
+*/
+     
     private $placeImg;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="Place_img2", type="string", length=120, nullable=false)
-     * @Assert\NotBlank(message="Place image cannot be blank")
-     */
-    private $placeImg2;
+* @var string
+*
+* @ORM\Column(name="Place_Img", type="string", length=120, nullable=false)
+*/
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="Place_Img3", type="string", length=120, nullable=false)
-     * @Assert\NotBlank(message="Place image cannot be blank")
-     */
-    private $placeImg3;
+
+/**
+ * @var string
+ *
+ * @ORM\Column(name="Place_img2", type="string", length=120, nullable=false)
+
+ */
+private $placeImg2;
+
+/**
+ * @var string
+ *
+ * @ORM\Column(name="Place_Img3", type="string", length=120, nullable=false)
+ */
+private $placeImg3;
 
     public function getPlaceId(): ?int
     {
@@ -202,12 +243,26 @@ class Placetovisit
         return $this->placeImg3;
     }
 
+    
+
     public function setPlaceImg3(string $placeImg3): self
     {
         $this->placeImg3 = $placeImg3;
 
         return $this;
     }
+        /**
+    * @return string
+    */
+    public function __toString()
+    {
+        return(string)$this->getPlaceName();
+    }
 
-
+    /**
+    * @param $placeId
+    */
+    public function setPlaceId($placeId) {
+    	$this->placeId = $placeId;
+    }
 }

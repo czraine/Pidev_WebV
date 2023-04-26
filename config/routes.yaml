@@ -1,5 +1,15 @@
 controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+    resource: ../src/Controller/
     type: attribute
+# favorite_toggle:
+#     path: '/admin/favplaces/favorites/toggle/{placeId}'
+#     controller: 'App\Controller\FavoriteController::toggle'
+
+when@prod:
+    framework:
+        router:
+            strict_requirements: null
+
+# currency_converter:
+#     path: '/convert/{from}/{to}/{amount}'
+#     controller: App\Controller\CurrencyConverterController::convert

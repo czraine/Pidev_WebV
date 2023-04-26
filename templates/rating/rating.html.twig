@@ -1,0 +1,196 @@
+{% extends 'rating/test.html.twig' %}
+
+{% block body %}
+    <table id="example2" class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>PlaceName</th>
+                <td>{{ place.placeName }}</td>
+            </tr>
+            <tr>
+                <th>Cityname</th>
+                <td>{{ place.cityname }}</td>
+            </tr>
+            <tr>
+                <th>PlaceType</th>
+                <td>{{ place.placeType }}</td>
+            </tr>
+            <tr>
+                <th>PlaceDescription</th>
+                <td>{{ place.placeDescription }}</td>
+            </tr>
+            <tr>
+                <th>PlaceAddress</th>
+                <td>{{ place.placeAddress }}</td>
+            </tr>
+            <tr>
+                <th>TicketsPrice</th>
+                <td>{{ place.ticketsPrice }}</td>
+            </tr>
+            <tr>
+                <th>PlaceImg</th>
+                <td> {% if place.placeImg is not empty %}
+                        <img src="{{ asset('uploads/images/' ~ place.placeImg) }}" alt="Place Image 1" >
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>PlaceImg2</th>
+                <td> {% if place.placeImg2 is not empty %}
+                        <img src="{{ asset('uploads/images/' ~ place.placeImg2) }}" alt="Place Image 1" >
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>PlaceImg3</th>
+                <td> {% if place.placeImg3 is not empty %}
+                        <img src="{{ asset('uploads/images/' ~ place.placeImg3) }}" alt="Place Image 1" >
+                    {% endif %}
+                </td>
+            </tr>
+            {# {{ render(controller('App\\Controller\\RatingController::ReviewForm', {'place': place.placeId})) }} #}
+        
+
+        </tbody>
+        
+    </table>
+    {# {{ render(controller('App\\Controller\\RatingController::ReviewForm', {'place': place})) }} #}
+    <p class="place-metadata">
+    <div class="rating col-2 col-sm-3 text-center" >
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rating System</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body>
+    <div align="center" style="background: #fff; padding: 2px; font-size: 15px; color: white;">
+        <i class="fa fa-star fa-1x" data-index="0"></i>
+        <i class="fa fa-star fa-1x" data-index="1"></i>
+        <i class="fa fa-star fa-1x" data-index="2"></i>
+        <i class="fa fa-star fa-1x" data-index="3"></i>
+        <i class="fa fa-star fa-1x" data-index="4"></i>
+        <br><br>
+        <?php echo round($avg,2) ?>
+    </div>
+    review text
+<textarea id="reviewTxt"></textarea>
+
+    <script src="http://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script>
+var ratedIndex = -1, idUser = 0;
+$(document).ready(function () {
+    resetStarColors();
+
+    if (localStorage.getItem('ratedIndex') != null) {
+        setStars(parseInt(localStorage.getItem('ratedIndex')));
+        idUser = localStorage.getItem('idUser');
+    }
+
+    $('.fa-star').on('click', function () {
+        ratedIndex = parseInt($(this).data('index')) + 1;
+        localStorage.setItem('ratedIndex', ratedIndex);
+        saveToTheDB();
+        showAverage();
+    });
+
+    $('.fa-star').mouseover(function () {
+        resetStarColors();
+        var currentIndex = parseInt($(this).data('index')) + 1;
+        setStars(currentIndex);
+    });
+
+    $('.fa-star').mouseleave(function () {
+        resetStarColors();
+
+        if (ratedIndex != -1)
+            setStars(ratedIndex);
+    });
+
+    showAverage();
+});
+
+function saveToTheDB() {
+    var currentUrl = window.location.pathname;
+    var ratingUrl = currentUrl;
+    var reviewTxt = $('#reviewTxt').val();
+    $.ajax({
+        url: ratingUrl,
+        method: "post",
+        dataType: 'json',
+        data: {
+            save: 1,
+            idUser: 1,
+            reviewTxt: reviewTxt,
+            ratedIndex: ratedIndex
+        },
+        success: function (r) {
+            idUser = r.id;
+            localStorage.setItem('idUser', 1);
+        }
+    });
+}
+
+function setStars(max) {
+    for (var i = 0; i <= max - 1; i++)
+        $('.fa-star:eq(' + i + ')').css('color', 'green');
+}
+
+function resetStarColors() {
+    $('.fa-star').css('color', 'grey');
+}
+
+function showAverage() {
+    var currentUrl = window.location.pathname;
+    var ratingUrl = currentUrl + '/';
+    $.ajax({
+        url: ratingUrl,
+        method: "GET",
+        dataType: 'json',
+        data: {
+            get_avg: 1
+        },
+        success: function (r) {
+            var avg = parseInt(r.avg);
+            if(avg > 0) {
+              $('#average').text(avg);
+              setStars(avg);
+            }
+        }
+    });
+}
+
+</script>
+<table id="example2" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>user</th>
+                <th>PlaceName</th>
+                <th>Rating</th>
+                <th>ReviewTxt</th>
+                <th>ReviewDate</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for rateform in ratesform %}
+            <tr>
+                <td>{{ rateform.idUser }}</td>
+                <td>{{ rateform.placeName }}</td>
+                <td>{{ rateform.rating }}</td>
+                <td>{{ rateform.reviewTxt }}</td>
+                <td>{{ rateform.reviewDate ? rateform.reviewDate|date('Y-m-d') : '' }}</td>
+                
+            </tr>
+    {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+{% endfor %}
+</tbody>
+</tbody>
+
+</table>
+</body>
+{% endblock %}

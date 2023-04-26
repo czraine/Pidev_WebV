@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\PlaceReviews;
+use App\Entity\User;
 use App\Form\PlaceReviewsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,26 +27,31 @@ class PlaceReviewsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_place_reviews_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $placeReview = new PlaceReviews();
-        $form = $this->createForm(PlaceReviewsType::class, $placeReview);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $placeReview = new PlaceReviews();
+    // $placeReview->setReviewId(123);
+    $user = $entityManager->getRepository(User::class)->find(3); // retrieve the user entity with id 3
+    $placeReview->setIdUser($user);
+    $form = $this->createForm(PlaceReviewsType::class, $placeReview);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($placeReview);
-            $entityManager->flush();
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($placeReview);
+        $entityManager->flush();
 
-            return $this->redirectToRoute('app_place_reviews_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('place_reviews/new.html.twig', [
-            'place_review' => $placeReview,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_place_reviews_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{reviewId}', name: 'app_place_reviews_show', methods: ['GET'])]
+    return $this->renderForm('place_reviews/new.html.twig', [
+        'place_review' => $placeReview,
+        'form' => $form,
+    ]);
+}
+
+    
+
+    #[Route('/{id}', name: 'app_place_reviews_show', methods: ['GET'])]
     public function show(PlaceReviews $placeReview): Response
     {
         return $this->render('place_reviews/show.html.twig', [
@@ -53,8 +59,8 @@ class PlaceReviewsController extends AbstractController
         ]);
     }
 
-    #[Route('/{reviewId}/edit', name: 'app_place_reviews_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, PlaceReviews $placeReview, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_place_reviews_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request,PlaceReviews $placeReview, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PlaceReviewsType::class, $placeReview);
         $form->handleRequest($request);

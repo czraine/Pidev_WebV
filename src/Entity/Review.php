@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Review
  *
- * @ORM\Table(name="review", uniqueConstraints={@ORM\UniqueConstraint(name="place_Id_3", columns={"place_Id"}), @ORM\UniqueConstraint(name="place_id_2", columns={"place_Id"})}, indexes={@ORM\Index(name="reviewPlace", columns={"id_User"}), @ORM\Index(name="place_Id", columns={"place_Id"}), @ORM\Index(name="place_Id_4", columns={"place_Id"})})
+ * @ORM\Table(name="review", uniqueConstraints={@ORM\UniqueConstraint(name="place_Id", columns={"place_Id"})})
  * @ORM\Entity
  */
 class Review
@@ -61,12 +61,9 @@ class Review
     private $place;
 
     /**
-     * @var \User
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_User", referencedColumnName="id_User")
-     * })
+     * @ORM\Column(name="idUser", type="integer", nullable=false)
      */
     private $idUser;
 
@@ -135,12 +132,12 @@ class Review
         return $this;
     }
 
-    public function getIdUser(): ?User
+    public function getIdUser(): ?int
     {
         return $this->idUser;
     }
 
-    public function setIdUser(?User $idUser): self
+    public function setIdUser(?int $idUser): self
     {
         $this->idUser = $idUser;
 

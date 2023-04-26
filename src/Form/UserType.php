@@ -14,10 +14,18 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\LanguageType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 
 
 class UserType extends AbstractType
 {
+    private $authorizationChecker;
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -44,18 +52,19 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Password'
             ])
- 
-            // Role field
-            ->add('role', ChoiceType::class, [
-                'label' => 'Role',
+            ->add('roles', ChoiceType::class, [
+                'label' => 'Roles',
+                'multiple' => true,
                 'choices' => [
                     'Admin' => 'ROLE_ADMIN',
                     'Guide' => 'ROLE_Guide',
                     'Tourist' => 'ROLE_Tourist'
-                ]
+                ],
+                'data' => $options['data']->getRoles(), // Set the default value
+                'expanded' => $this->authorizationChecker->isGranted('ROLE_ADMIN'), // Expand only for admin users
+                'disabled' => !$this->authorizationChecker->isGranted('ROLE_ADMIN'), // Disable for non-admin users
             ])
- 
-            // Language fields
+            
             ->add('lang1', LanguageType::class, [
                 'label' => 'Primary Language'
             ])
@@ -78,7 +87,7 @@ class UserType extends AbstractType
             ->add('langue', LanguageType::class, [
                 'label' => 'Additional Language'
             ])
-            ->add('submit',SubmitType::class)
+            ->add('Register',SubmitType::class)
         ;
     }
 

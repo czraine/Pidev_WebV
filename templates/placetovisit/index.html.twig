@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'placetovisit/base.html.twig' %}
 
 {% block title %}Place to visite
 {% endblock %}
@@ -57,7 +57,6 @@
                         });
                     </script>
                 {% endif %}
-
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
@@ -88,9 +87,21 @@
 												<td>{{ placetovisit.placeType }}</td>
 												<td>{{ placetovisit.placeAddress }}</td>
 												<td>{{ placetovisit.ticketsPrice }}</td>
-												<td>{{ placetovisit.placeImg }}</td>
-												<td>{{ placetovisit.placeImg2 }}</td>
-												<td>{{ placetovisit.placeImg3 }}</td>
+												<td>
+													 {% if placetovisit.placeImg is not empty %}
+														<img src="{{ asset('uploads/images/' ~ placetovisit.placeImg) }}" alt="Place Image 1" >
+													{% endif %}
+												</td>
+												<td>
+													 {% if placetovisit.placeImg2 is not empty %}
+														<img src="{{ asset('uploads/images/' ~ placetovisit.placeImg2) }}" alt="Place Image 2" >
+													{% endif %}
+												</td>
+												<td>
+													 {% if placetovisit.placeImg3 is not empty %}
+														<img src="{{ asset('uploads/images/' ~ placetovisit.placeImg3) }}" alt="Place Image 3" >
+													{% endif %}
+												</td>
                                                 <td class="project-actions text-right">
                                                     <a class="btn btn-primary btn-sm" href="{{ path('app_placetovisit_show', {'placeId': placetovisit.placeId}) }}">
                                                     <i class="fas fa-folder"></i>View</a>
@@ -116,6 +127,12 @@
 						<!-- /.card-body -->
 					</div>
 					<!-- /.card -->
+
+
+
+
+
+
 <!-- jQuery -->
 <script src="{{ asset('../../plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
@@ -8,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PlaceReviews
  *
- * @ORM\Table(name="place_reviews", indexes={@ORM\Index(name="place_Id", columns={"place_Id"}), @ORM\Index(name="hergeba3", columns={"id_User"})})
+ * @ORM\Table(name="placeReviews", indexes={@ORM\Index(name="FK_5DBCFCF4A6816575", columns={"id_user"}), @ORM\Index(name="FK_5DBCFCF4729B51B", columns={"place_id"})})
  * @ORM\Entity
  */
 class PlaceReviews
@@ -16,11 +17,11 @@ class PlaceReviews
     /**
      * @var int
      *
-     * @ORM\Column(name="Review_id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $reviewId;
+    private $id;
 
     /**
      * @var string
@@ -44,39 +45,35 @@ class PlaceReviews
     private $reviewTxt = 'NULL';
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="Review_date", type="date", nullable=false)
+     * @ORM\Column(name="Review_date", type="date", nullable=true)
      */
     private $reviewDate;
 
     /**
-     * @var \User
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_User", referencedColumnName="id_User")
-     * })
-     */
-    private $idUser;
-
-    /**
      * @var \Placetovisit
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Placetovisit")
+     * @ORM\ManyToOne(targetEntity="Placetovisit")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="place_Id", referencedColumnName="Place_Id")
+     *   @ORM\JoinColumn(name="place_id", referencedColumnName="Place_Id")
      * })
      */
     private $place;
 
-    public function getReviewId(): ?int
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_User")
+     * })
+     */
+    private $idUser;
+
+    public function getId(): ?int
     {
-        return $this->reviewId;
+        return $this->id;
     }
 
     public function getPlaceName(): ?string
@@ -120,21 +117,9 @@ class PlaceReviews
         return $this->reviewDate;
     }
 
-    public function setReviewDate(\DateTimeInterface $reviewDate): self
+    public function setReviewDate(?\DateTimeInterface $reviewDate): self
     {
         $this->reviewDate = $reviewDate;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?User
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(?User $idUser): self
-    {
-        $this->idUser = $idUser;
 
         return $this;
     }
@@ -147,6 +132,18 @@ class PlaceReviews
     public function setPlace(?Placetovisit $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?User
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?User $idUser): self
+    {
+        $this->idUser = $idUser;
 
         return $this;
     }

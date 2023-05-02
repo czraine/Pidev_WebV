@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservationcircuit index{% endblock %}
+
+{% block body %}
+    <div
+		class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>DataTables</h1>
+					</div>
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item">
+								<a href="#">Home</a>
+							</li>
+							<li class="breadcrumb-item active">DataTables</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			<!-- /.container-fluid -->
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-14">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">DataTable with minimal features & hover style</h3>
+							</div>
+							<!-- /.card-header -->
+							<div class="card-body">
+								<table id="example2" class="table table-bordered table-hover">
+
+    
+        <thead>
+            <tr>
+                <th>NumRes</th>
+                <th>DateDébut</th>
+                <th>NbrPlace</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservationcircuit in reservationcircuits %}
+            <tr>
+                <td>{{ reservationcircuit.numRes }}</td>
+                <td>{{ reservationcircuit.dateDebut ? reservationcircuit.dateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ reservationcircuit.nbrPlace }}</td>
+                <td>
+                    <a href="{{ path('app_reservationcircuit_show', {'numRes': reservationcircuit.numRes}) }}">show</a>
+                    <a href="{{ path('app_reservationcircuit_edit', {'numRes': reservationcircuit.numRes}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+	<!-- /.content -->
+</div>
+
+<!-- jQuery -->
+<script src="{{ asset('../../plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('../../plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{ asset('../../plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{ asset('../../plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('../../dist/js/adminlte.min.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('../../dist/js/demo.js')}}"></script>
+<!-- Page specific script -->
+<script>
+	$(function () {
+$("#example1").DataTable({
+"responsive": true,
+"lengthChange": true,
+"autoWidth": true,
+"buttons": [
+"copy",
+"csv",
+"excel",
+"pdf",
+"print",
+"colvis"
+]
+}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+$('#example2').DataTable({
+"paging": false,
+"lengthChange": false,
+"searching": false,
+"ordering": true,
+"info": false,
+"autoWidth": false,
+"responsive": true
+}).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+<script>
+function filte() {
+var today = new Date(document.getElementById('datefilterPfrom').value);
+var dd = today.getDate();
+var mm = today.getMonth() + 1; // January is 0!
+var yyyy = today.getFullYear();
+
+if (dd < 10) {
+dd = '0' + dd
+}
+
+if (mm < 10) {
+mm = '0' + mm
+}
+today = yyyy + '-' + mm + '-' + dd;
+
+document.getElementById('datefilterPto').setAttribute("min", today);
+
+var from = $('#datefilterPfrom').val();
+var to = $('#datefilterPto').val();
+from = from || '1970-01-01'; // default from to a old date if it is not set
+to = to || '2999-12-31';
+
+var dateFrom = moment(from);
+var dateTo = moment(to);
+
+var nbmax = $('#nbmax').val();
+var nbmin = $('#nbmin').val();
+console.log(nbmin)
+
+nbmin = Number(nbmin) || 0;
+nbmax =Number( nbmax) || 1000000000
+
+
+$('#example2 tbody tr').each(function (i, tr) {
+var val = $(tr).find("td:nth-child(2)").text();
+var val2 = $(tr).find("td:nth-child(3)").text();
+var dateVal = moment(val, "YYYY-MM-DD");
+console.log(nbmin + " :" + nbmax + " :" + val2 + "e 	" + (val2>=nbmin) + (val2 <= nbmax))
+var visible = (dateVal.isBetween(dateFrom, dateTo, null, []) && (val2>=nbmin && val2 <= nbmax) ) ? "" : "none";
+$(tr).css('display', visible);
+});
+}
+{% endblock %}
+

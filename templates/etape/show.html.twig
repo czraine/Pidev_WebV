@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etape{% endblock %}
+
+{% block body %}
+    <h1>Etape</h1>
+
+    
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>User Edit</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active"> Edit User </li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">General</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+ 
+              <div class="form-group">
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>numero de circuit</th>
+                <td>{{ etape.nc }}</td>
+            </tr>
+            <tr>
+                <th>nom de ville</th>
+                <td>{{ etape.idVille }}</td>
+            </tr>
+            <tr>
+                <th>Rang</th>
+                <td>{{ etape.rang }}</td>
+            </tr>
+            <tr>
+                <th>Jr</th>
+                <td>{{ etape.jr }}</td>
+            </tr>
+            
+            <tr>
+                <th>Programme</th>
+                <td>{{ etape.programme }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etape_index') }}">back to list</a>
+
+    <a href="{{ path('app_etape_edit', {'rang': etape.rang}) }}">edit</a>
+    <a href="{{ path('app_etape_delete', {'rang': etape.rang}) }}">delete</a>
+
+
+{{ include('etape/_delete_form.html.twig') }}
+
+    </div>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+ 
+      </div>
+      <div class="row">
+
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+{% endblock %}

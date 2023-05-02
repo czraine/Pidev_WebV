@@ -1,0 +1,65 @@
+{% extends "basefront.html.twig" %}
+
+{% block body %}
+  
+ <div class="container pt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{circuit.nom}}</h1>
+                    <p class="lead">{{circuit.description}}</p>
+                    <p><strong>Date :</strong>{{ circuit.dateDebut | date("Y-m-d")}} </p>
+                    <p><strong>Duree:</strong>{{ circuit.duree}} Jours</p>
+                    <p><strong>prix:</strong> {{ circuit.prix}}</p>
+                    <p><strong>Nb places</strong> {{ circuit.nbPlace}}</p>
+                    <p><strong>Ville depart:</strong> {{circuit.vdep}}</p>
+                    <p><strong>Ville arrive:</strong> {{circuit.varr}}</p>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">Map</div>
+                        <div class="card-body">
+                            <div id="map" style="
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height:800px;
+        margin-bottom:500px
+        "
+      ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   <script>
+      // Set your Mapbox access token here
+      mapboxgl.accessToken = 'pk.eyJ1Ijoib21hcmxnIiwiYSI6ImNqangxb3Q2NGE4N3czcGxmYjh6bmV1MDUifQ.PgYR8lQ-PBOfuuKBeCRJ7A';
+
+     var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
+  center: [10.19, 36.88],
+  zoom: 7
+});
+
+// Add markers for Tunis and Sousse
+var sousseMarker = new mapboxgl.Marker()
+  .setLngLat([{{cordArr.longitude}} , {{cordArr.latitude}}])
+  .addTo(map);
+
+var tunisMarker = new mapboxgl.Marker()
+  .setLngLat([{{cordDeb.longitude}} , {{cordDeb.latitude}}])
+  .addTo(map);
+
+
+    var directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+    });
+
+    // Add the directions to the map
+    map.addControl(directions, 'top-left');
+    directions.setOrigin([{{cordDeb.longitude}} , {{cordDeb.latitude}}]);
+    directions.setDestination([{{cordArr.longitude}} , {{cordArr.latitude}}]);
+    </script>
+{% endblock %}

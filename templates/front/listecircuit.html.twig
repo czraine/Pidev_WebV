@@ -1,0 +1,92 @@
+{% extends 'basefront.html.twig' %}
+
+{% block body %}
+<div class="container-fluid py-5">
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Packages</h6>
+                <h1>Pefect Tour Packages</h1>
+            </div>
+            <div class="row">
+            {% for circuit in circuits %}
+               {% if circuit.nbPlace > 0 %}
+               <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="package-item bg-white mb-2">
+                        <img class="img-fluid" src="{{ asset('uploads/' ~ circuit.imageSrc)}}" alt="">
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between mb-3">
+                                <small class="m-0"><i class="fa fa-map-marker-alt text-primary mr-2"></i>{{circuit.vdep}}-{{circuit.varr}} </small>
+                                <small class="m-0"><i class="fa fa-user text-primary mr-2"></i>{{circuit.nbPlace}}</small>
+                                <small class="m-0"><i class="fa fa-calendar-alt  text-primary mr-2"></i>{{circuit.dateDebut |date("Y-m-d")}}</small>
+                            </div>
+                            <a class="h5 text-decoration-none" href="{{ path('app_circuit_show', { 'nc': circuit.nc }) }}">Discover amazing places of the world with us</a>
+                            <div class="border-top mt-4 pt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="m-0">{{circuit.prix}} TND</h5>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-{{circuit.nc}}">
+                                    res
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade"  id="exampleModal-{{circuit.nc}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+            <form id="f-{{circuit.nc}}" action="/circuit/{{circuit.nc}}/res" method="POST">
+
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{circuit.nc}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+                
+                <div class="form-group">
+                        <label for="nb">Nbplace</label>
+                <input name="nb" data-id="{{circuit.nc}}" type="number" onkeyup="verif(this)" /> 
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" disabled id="btn-{{circuit.nc}}" class="btn btn-primary">Submit</button>
+        </div>
+        </form>
+
+        </div>
+  </div>
+</div>
+               {% endif %}
+               
+            {% endfor %}
+               
+             
+            </div>
+        </div>
+    </div>
+    <script>
+    function verif(a){
+        console.log(a.getAttribute("data-id"))
+         input=Number(a.value);
+         url="/circuit/"+a.getAttribute("data-id")+"/available"
+         button=document.getElementById("btn-"+a.getAttribute("data-id"));
+    $.ajax({
+        method: "GET",
+        url:url,
+        data: {nbplace: input},
+        success: function(response){
+           if(response==true || response=="true")
+            {
+                button.disabled=false;
+            }else{
+                                button.disabled=true;
+
+            }
+        }})
+    }
+   
+    </script>
+
+{% endblock %}

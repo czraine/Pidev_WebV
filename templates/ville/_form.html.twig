@@ -1,0 +1,40 @@
+{{ form_start(form,{attr:{novalidate:'novalidate'}}) }}
+   
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">nomville</label>
+     {{ form_widget(form.nomville,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.nomville,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">gouvernant</label>
+     {{ form_widget(form.gouvernant,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.gouvernant,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">description</label>
+     {{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.description,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">longitude</label>
+     {{ form_widget(form.longitude,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.longitude,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">latitude</label>
+     {{ form_widget(form.latitude,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.latitude,{'attr':{'class':'text-danger'}}) }}
+
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

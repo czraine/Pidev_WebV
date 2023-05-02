@@ -1,0 +1,34 @@
+{{form_start(form,{attr:{novalidate:'novalidate'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">jr</label>
+     {{ form_widget(form.jr,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.jr,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">programme</label>
+     {{ form_widget(form.programme,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.programme,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">nc</label>
+     {{ form_widget(form.nc,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.nc,{'attr':{'class':'text-danger'}}) }}
+
+    <divclass="form-group">
+    <label for="inputText" class="col-sm-4 col-form-label">idVille</label>
+     {{ form_widget(form.idVille,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    {{ form_errors(form.idVille,{'attr':{'class':'text-danger'}}) }}
+
+
+    
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,155 @@
+{% extends 'basefront.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Reservations</h1>
+                    </div>
+                   
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+<div class="row">
+									<div class="col-3">
+										<h4>Date from</h4>
+										<input type="date" onchange="filte()" class="form-control" id="datefilterPfrom" data-date-split-input="true">
+									</div>
+									<div class="col-3">
+										<h4>Date to</h4>
+										<input type="date" onchange="filte()" class="form-control" id="datefilterPto" data-date-split-input="true">
+									</div>
+									<div class="col-3">
+										<h4>prix min : </h4>
+										<input type="number"  onkeyup="filte()" class="form-control" id="nbmin" >
+									</div>
+									<div class="col-3">
+										<h4>prix max : </h4>
+										<input type="number"  onkeyup="filte()" class="form-control" id="nbmax" >
+									</div>
+								</div>
+								<!-- /.card-header -->
+					
+                            
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                
+                            </div>
+                            <div class="form-group">
+
+                                <table class="table" id="example2">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>nom circuit</th>
+                                        <th>ville depart </th>
+                                        <th>ville arrive</th>
+                                        <th>Date</th>
+                                        <th>prix </th>
+                                        <th>nbrplace</th>
+                                       
+                                        <th>actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for rc in reservationcircuits %}
+                                      <tr>
+                                      <td>{{rc.numRes}}</td>
+                                      <td>{{rc.nc.nom}}</td>
+                                      <td>{{rc.nc.vdep}}</td>
+                                      <td>{{rc.nc.varr}}</td>
+                                      <td>{{rc.dateDebut | date("Y-m-d")}}</td>
+                                      <td>{{rc.nc.prix * rc.nbrplace }} TND</td>
+                                      <td>{{rc.nbrplace }}</td>
+                                     
+                                      <td>{% if rc.isPaid == 0 %} <a  href="/reservationcircuit/checkout/{{rc.numRes}}"  class="btn btn-primary">Pay </a>{% else %} Paid {% endif %}
+                                      </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+            </div>
+            <div class="row">
+
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+<script>
+function filte() {
+var today = new Date(document.getElementById('datefilterPfrom').value);
+var dd = today.getDate();
+var mm = today.getMonth() + 1; 
+var yyyy = today.getFullYear();
+
+if (dd < 10) {
+dd = '0' + dd
+}
+
+if (mm < 10) {
+mm = '0' + mm
+}
+today = yyyy + '-' + mm + '-' + dd;
+
+
+
+
+document.getElementById('datefilterPto').setAttribute("min", today);
+
+
+// elli lfou9 y skaer dates 9abl date from 
+
+var from = $('#datefilterPfrom').val();
+var to = $('#datefilterPto').val();
+to = to || '2999-12-31';
+
+var dateFrom = moment(from);
+var dateTo = moment(to);
+
+var nbmax = $('#nbmax').val();
+var nbmin = $('#nbmin').val();
+console.log(nbmin)
+
+nbmin = Number(nbmin) || 0;
+nbmax =Number( nbmax) || 1000000000
+
+
+$('#example2 tbody tr').each(function (i, tr) {
+var val = $(tr).find("td:nth-child(5)").text();
+var val2 = $(tr).find("td:nth-child(6)").text().replace(" TND","") ;
+var dateVal = moment(val, "YYYY-MM-DD");
+
+//lmoment biblio  tmanipuli les dates 
+console.log(val)
+console.log(nbmin + " :" + nbmax + " :" + val2 + "e 	" + (val2>=nbmin) + (val2 <= nbmax))
+var visible = (dateVal.isBetween(dateFrom, dateTo, null, []) && (val2>=nbmin && val2 <= nbmax) ) ? "" : "none";
+$(tr).css('display', visible);
+});
+}
+</script>
+{% endblock %}

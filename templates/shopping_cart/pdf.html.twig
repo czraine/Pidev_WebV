@@ -1,0 +1,26 @@
+{% extends 'basefront.html.twig' %}
+{% block title %}
+    <title>ShoppingCart index</title>
+{% endblock %}
+
+{% block body %}
+
+<h1><center>Demande index</center></h1>
+<div style="margin: 0 auto;display: block;width: 400px;">
+    <table width="100%" border="1">
+
+    <table class="table">
+        <tbody>
+
+        <tr>
+            <th>Price</th>
+            <td>{{ shopping_cart.price }}</td>
+        </tr>
+        <tr>
+            <th>Quantity</th>
+            <td>{{ shopping_cart.quantity }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

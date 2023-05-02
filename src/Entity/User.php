@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,13 +20,23 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idUser;
+    public $idUser;
+
+    /**
+     * @param int $idUser
+     */
+    public function setIdUser(int $idUser): void
+    {
+        $this->idUser = $idUser;
+    }
 
     /**
      * @var string
      *
      * @ORM\Column(name="User_FirstName", type="string", length=30, nullable=false)
      */
+    #[Assert\NotBlank (message:"Please enter your firstname")]
+    #[Assert\Length (min:2 , max:30, minMessage:"Your firstname reference must be at least 2 caracteres", maxMessage:"Your firstname reference characters max is 30")]
     private $userFirstname;
 
     /**
@@ -34,6 +44,7 @@ class User
      *
      * @ORM\Column(name="User_lastName", type="string", length=30, nullable=false)
      */
+    #[Assert\NotBlank (message:"Please enter your lastname")]
     private $userLastname;
 
     /**
@@ -41,6 +52,7 @@ class User
      *
      * @ORM\Column(name="User_mail", type="string", length=30, nullable=false)
      */
+    #[Assert\NotBlank (message:"Please enter your mail")]
     private $userMail;
 
     /**
@@ -48,6 +60,7 @@ class User
      *
      * @ORM\Column(name="User_phone", type="integer", nullable=false)
      */
+    #[Assert\NotBlank (message:"Please enter your phone")]
     private $userPhone;
 
     /**
@@ -55,6 +68,7 @@ class User
      *
      * @ORM\Column(name="Username", type="string", length=30, nullable=false)
      */
+    #[Assert\NotBlank (message:"Please enter your username")]
     private $username;
 
     /**
@@ -62,6 +76,7 @@ class User
      *
      * @ORM\Column(name="Password", type="string", length=255, nullable=false)
      */
+    #[Assert\NotBlank (message:"Please enter your password")]
     private $password;
 
     /**
@@ -69,77 +84,79 @@ class User
      *
      * @ORM\Column(name="role", type="string", length=30, nullable=false)
      */
+   
     private $role;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="lang1", type="string", length=120, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="lang1", type="string", length=120, nullable=true)
      */
-    private $lang1 = 'NULL';
+ 
+    private $lang1;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="lang2", type="string", length=100, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="lang2", type="string", length=100, nullable=true)
      */
-    private $lang2 = 'NULL';
+    private $lang2;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="lang3", type="string", length=100, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="lang3", type="string", length=100, nullable=true)
      */
-    private $lang3 = 'NULL';
+    private $lang3;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Cityname", type="string", length=100, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="Cityname", type="string", length=100, nullable=true)
      */
-    private $cityname = 'NULL';
+    private $cityname;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Nationality", type="string", length=100, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="Nationality", type="string", length=100, nullable=true)
      */
-    private $nationality = 'NULL';
+    private $nationality;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="Langue", type="string", length=30, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="Langue", type="string", length=30, nullable=true)
      */
-    private $langue = 'NULL';
+    private $langue;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="dateBeg", type="date", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="dateBeg", type="date", nullable=true)
      */
-    private $datebeg = 'NULL';
+    private $datebeg;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="dateEnd", type="date", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="dateEnd", type="date", nullable=true)
      */
-    private $dateend = 'NULL';
+    private $dateend;
 
     /**
      * @var bool|null
      *
-     * @ORM\Column(name="disponibility", type="boolean", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="disponibility", type="boolean", nullable=true)
      */
-    private $disponibility = 'NULL';
+    private $disponibility;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="id_relation", type="integer", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="id_relation", type="integer", nullable=true)
      */
-    private $idRelation = NULL;
+    private $idRelation;
 
     public function getIdUser(): ?int
     {

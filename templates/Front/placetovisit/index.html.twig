@@ -1,0 +1,228 @@
+{% extends 'Front/base.html.twig' %}
+
+{% block title %}Place to visite
+{% endblock %}
+
+{% block body %}
+               
+	<div
+		class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<!-- Main content -->
+		<section class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-14">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">DataTable of Place to visite</h3>
+								 {# {% if app.session.flashBag.has('success') %} #}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {# {% for message in app.flashes('success') %} #}
+                            {# {{ message|trans }} #}
+                        {# {% endfor %} #}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <script>
+                    //5 sec bech thidde
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const alert = document.querySelector('.alert');
+                            alert.classList.add('show');
+                            setTimeout(function() {
+                                alert.classList.remove('show');
+                            }, 5000);
+                        });
+                    </script>
+                {# {% endif %} #}
+
+		
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+        </div>
+
+		<div class="row">
+  {% for placetovisit in placetovisits %}
+  <div class="col-md-4">
+    <!-- Widget: user widget style 1 -->
+    <div class="card card-widget widget-user">
+      <!-- Add the bg color to the header using any of the bg-* classes -->
+      <div class="widget-user-header text-white" style="background: url('{{ asset('front/img/photo1.png.') }}') center center;">
+        <h3 class="widget-user-username text-right">.</h3>
+        <h3 class="widget-user-username text-right">.</h3>
+        <h3 class="widget-user-username text-right">.</h3>
+        <h5 class="widget-user-desc text-right">.</h5>
+		      {# {% if is_granted('IS_AUTHENTICATED_FULLY') %} #}
+      <div class="toggle-favorite-btn">
+        <a class="btn btn-info btn-sm" onclick="toggleFavorite({{ placetovisit.placeId }})">
+          <i class="far fa-heart"></i>
+        </a>
+      </div>
+	        {# {% endif %} #}
+        <a class="btn btn-primary btn-sm view-more-btn" href="{{ path('rating1', {'placeId': placetovisit.placeId}) }}">
+          <i class="fas fa-folder"></i>View more
+        </a>
+        {# <a class="btn btn-primary btn-sm " href="{{ path('weather_city', {'city': placetovisit.placeName}) }}">
+          <i class="fas fa-folder"></i>weather
+        </a> #}
+<a href="{{ path('weather_city', {'city': placetovisit.cityname}) }}">
+  <img src="{{ data.icon_img }}" alt="Weather icon">
+</a>
+
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-sm-4 border-right">
+            <div class="description-block">
+              <h5 class="description-header">place name</h5>
+              <span class="description-text">{{ placetovisit.placeName }}</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4 border-right">
+            <div class="description-block">
+              <h5 class="description-header">city name</h5>
+              <span class="description-text">{{ placetovisit.cityname }} <img src={{ data.icon_img }}></span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-4">
+            <div class="description-block">
+              <h5 class="description-header">tickets Price</h5>
+              <span class="description-text">{{ placetovisit.ticketsPrice }}</span>
+            </div>
+            <!-- /.description-block -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+    </div>
+    <!-- /.widget-user -->
+  </div>
+  <!-- /.col -->
+  {% endfor %}
+</div>
+
+
+		{# <div class="row">
+            
+            <div class="col-sm">
+                À {{ data.country_name }} 
+                (lon. : {{ data.lon }}, lat. : {{ data.lat }})
+            </div>
+            
+            <div class="col-sm">
+                <img src={{ data.icon_img }}>
+            </div>
+            <div class="col-sm">
+                Température : {{ data.temperature }} °C (min. : {{ data.min }}, max. : {{ data.max }})
+            </div>
+        </div> #}
+
+<script>
+function toggleFavorite(placeId) {
+  var xhr = new XMLHttpRequest();
+  var url = "/favplaces/favorites/toggle/" + placeId;
+  xhr.open("POST", url);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      var response = JSON.parse(xhr.responseText);
+      if (response.status === "added") {
+        // toggle the active class on the heart icon
+        document.querySelector(`[onclick="toggleFavorite(${placeId})"]`).classList.add("active");
+      } else if (response.status === "removed") {
+        // toggle the active class off the heart icon
+        document.querySelector(`[onclick="toggleFavorite(${placeId})"]`).classList.remove("active");
+      }
+    }
+  };
+  xhr.send();
+}
+</script>
+
+<style>
+.toggle-favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: none;
+}
+.widget-user-header:hover .toggle-favorite-btn {
+  display: block;
+}
+  .widget-user-header {
+    position: relative;
+    overflow: hidden;
+  }
+  .view-more-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .card:hover .view-more-btn {
+    opacity: 1;
+  }
+</style>
+
+		
+
+
+<!-- jQuery -->
+<script src="{{ asset('../../plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('../../plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{ asset('../../plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{ asset('../../plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('../../dist/js/adminlte.min.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('../../dist/js/demo.js')}}"></script>
+<!-- Page specific script -->
+<script>
+	$(function () {
+$("#example1").DataTable({
+"responsive": true,
+"lengthChange": true,
+"autoWidth": true,
+"buttons": [
+"copy",
+"csv",
+"excel",
+"pdf",
+"print",
+"colvis"
+]
+}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+$('#example2').DataTable({
+"paging": false,
+"lengthChange": false,
+"searching": false,
+"ordering": true,
+"info": false,
+"autoWidth": false,
+"responsive": true
+}).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+});
+</script>
+{% endblock %}

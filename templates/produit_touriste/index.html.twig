@@ -1,0 +1,229 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Produit</h1>
+                        </div>
+                        <div class="col-sFm-10">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active"> Show Produit </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">General</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="text" onkeyup="search()" id="search" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <table class="table" id="example1">
+                                        <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Type</th>
+                                            <th>Price</th>
+                                            <th>Quantité</th>
+                                            <th>Image</th>
+                                            <th>Status</th>
+                                            <th>actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for produit in produits %}
+                                            <tr>
+                                                <td>{{ produit.idProduit }}</td>
+                                                <td>{{ produit.nameProd }}</td>
+                                                <td>
+                                                    <div class="description-container">
+
+                                                        <p>{{ produit.prodDescription|slice(0, 2) }}{% if produit.prodDescription|length > 2 %}...<a href="#" class="read-more-btn">Read More</a>{% endif %}</p>
+                                                        <div class="full-description" style="display: none;">{{ produit.prodDescription }}</div>
+                                                        {% if produit.prodDescription |length > 2 %}
+                                                            <a href="#" class="show-less-btn" style="display: none;">Show Less</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                                <td>{{ produit.typeProd }}</td>
+                                                <td>{{ produit.priceProd }}</td>
+                                                <td>{{ produit.quantite }}</td>
+                                                <td><img width="300"  height="200" src="{{ asset('/uploads/' ~ produit.imageProd) }}" style="width: 50%; height: auto;"></td>
+                                                <td>{{ produit.status }}</td>
+                                                <td>
+
+
+                                                    <a class="btn btn-primary btn-sm" href="{{ path('app_produit_show_touriste', {'idProduit': produit.idProduit}) }}">
+                                                        <i class="fas fa-folder"></i>View</a>
+
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="9">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+                </div>
+                <div class="row">
+
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </div>
+
+    <script language="JavaScript"  src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js" defer></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const descriptionContainers = document.querySelectorAll('div.description-container');
+            descriptionContainers.forEach(container => {
+                const readMoreButton = container.querySelector('a.read-more-btn');
+                const showLessButton = container.querySelector('a.show-less-btn');
+                const fullDescription = container.querySelector('div.full-description');
+                const truncatedDescription = container.querySelector('p');
+                readMoreButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fullDescription.style.display = 'block';
+                    truncatedDescription.style.display = 'none';
+                    readMoreButton.style.display = 'none';
+                    showLessButton.style.display = 'inline';
+                });
+                showLessButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fullDescription.style.display = 'none';
+                    truncatedDescription.style.display = 'block';
+                    readMoreButton.style.display = 'inline';
+                    showLessButton.style.display = 'none';
+                });
+            });
+            {# var a = $("#example1").DataTable ({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": [
+                "copy",
+                "csv",
+                "excel",
+                "pdf",
+                "print"
+            ]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)'); #}
+
+
+        })
+        function readmoreless()
+        {
+            const descriptionContainers = document.querySelectorAll('div.description-container');
+            descriptionContainers.forEach(container => {
+                const readMoreButton = container.querySelector('a.read-more-btn');
+                const showLessButton = container.querySelector('a.show-less-btn');
+                const fullDescription = container.querySelector('div.full-description');
+                const truncatedDescription = container.querySelector('p');
+                readMoreButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fullDescription.style.display = 'block';
+                    truncatedDescription.style.display = 'none';
+                    readMoreButton.style.display = 'none';
+                    showLessButton.style.display = 'inline';
+                });
+                showLessButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    fullDescription.style.display = 'none';
+                    truncatedDescription.style.display = 'block';
+                    readMoreButton.style.display = 'inline';
+                    showLessButton.style.display = 'none';
+                });
+            });
+        }
+        function search()
+        {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search").value ;
+            $.ajax({
+                method: "GET",
+                url: "{{ path('app_reservationcircuit_search') }}",
+                data: {search: input},
+                success: function(response){
+                    console.log(response);
+                    $('#example1 tbody').empty();
+                    if (response.length === 0) {
+                        var messageRow = $('<tr>').append($('<td colspan="3">').text('No results found.'));
+                        $('#example1 tbody').append(messageRow);
+
+                    } else {
+                        // Add search results to table
+                        $.each(response, function(index, product) {
+
+                            var row = $('<tr>');
+                            row.append($('<td>').text(product.idProduit));
+                            row.append($('<td>').text(product.nameProd));
+                            var descriptionCell = $('<td>');
+                            var descriptionContainer = $('<div>').addClass('description-container');
+                            var descriptionParagraph = $('<p>').text(product.prodDescription.slice(0, 2)+"...");
+                            if (product.prodDescription.length > 2) {
+                                descriptionParagraph.append($('<a>').text('Read More').addClass('read-more-btn'));
+                            }
+                            var fullDescription = $('<div>').addClass('full-description').text(product.prodDescription).hide();
+                            descriptionContainer.append(descriptionParagraph, fullDescription);
+                            if (product.prodDescription.length > 2) {
+                                descriptionContainer.append($('<a>').text('Show Less').addClass('show-less-btn').hide());
+                            }
+                            descriptionCell.append(descriptionContainer);
+                            row.append(descriptionCell);
+                            row.append($('<td>').text(product.typeProd));
+                            row.append($('<td>').text(product.priceProd));
+                            row.append($('<td>').text(product.quantite));
+                            row.append($('<td>').append($('<img>').attr('src', product.imageProd).attr('alt', product.nameProd)));
+                            row.append($('<td>').text(product.status));
+                            $('#example1 tbody').append(row);
+                        });
+                        readmoreless();
+                    }
+                }
+            });}
+    </script>
+{% endblock %}

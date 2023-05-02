@@ -1,0 +1,70 @@
+{% extends 'basefront.html.twig' %}
+
+
+{% block body %}
+    <style>
+        body {
+            text-align: center;
+            padding: 40px 0;
+            background: #EBF0F5;
+        }
+        h1 {
+            color: #88B04B;
+            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+            font-weight: 900;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #404F5E;
+            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+            font-size:20px;
+            margin: 0;
+        }
+        i {
+            color: #9ABC66;
+            font-size: 100px;
+            line-height: 200px;
+            margin-left:-15px;
+        }
+        .card {
+            background: white;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 2px 3px #C8D0D8;
+            display: inline-block;
+            margin: 0 auto;
+        }
+    </style>
+    <body>
+<div>
+    <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+        <i class="checkmark">✓</i>
+    </div>
+    <br>
+    <h1>Thank you for renting with us !</h1>
+    <br><br>
+    <p><center><h5>Order Details:</p>
+    <br>
+    {% if shoppingcarts is not null %}
+        <center><h6>Order ID: {{ shoppingcarts.idCart }}</h6></center>
+    {% endif %}
+    {% if shoppingcarts is not null %}
+        <center><h6>Amount: {{  shoppingcarts.price + ( shoppingcarts.price * 19) / 100 }} TND</h6></center>
+    {% endif %}
+    <center><h6>Payment Status: ACCEPTED
+    <center><h6>Payment Method: Credit Card
+    {% if shoppingcarts is not null %}
+        <center><h5 style="color:green">Reward: {{ (shoppingcarts.price * 20 ) / 100 }} RentPoints</h5></center>
+    {% endif %}
+    <br><br><br>
+    {% if shoppingcarts is not null %}
+        <center><a class ="btn btn-primary"  href="{{ path('shopping_cartapp_pdf',{'idCart': shoppingcarts.idCart} )}}">Show Invoice</a></center>
+    {% endif %}
+    <br><br><br><br><br><br>
+    <p>
+        We appreciate your business!
+        If you have any questions, please email
+        <a href="roadrevel@gmail.com">roadrevel@gmail.com</a>.
+    </p>
+{% endblock %}

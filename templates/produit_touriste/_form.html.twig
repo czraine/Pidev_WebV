@@ -1,0 +1,67 @@
+<div class="container">
+    {{ form_start(form , {'attr':{'novalidate':'novalidate'}}) }}
+    <div class="form-group">
+        {{ form_label(form.nameProd," Please Enter The name of product")  }}
+        {{ form_widget(form.nameProd , {'attr':{'class':'form-control'} }) }}
+        {% if form_errors(form.nameProd) is not empty %}
+            <div class="alert alert-danger">
+                {{ form_errors(form.nameProd) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.prodDescription," Please Enter The Description")  }}
+        {{ form_widget(form.prodDescription , {'attr':{'class':'form-control'} }) }}
+        {% if form_errors(form.prodDescription) is not empty %}
+            <div class="alert alert-danger">
+                {{ form_errors(form.prodDescription) }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.typeProd,"Please Choose The typeProd")  }}
+        {{ form_widget(form.typeProd , {'attr':{'class':'form-control'} }) }}
+
+        {{ form_errors(form.typeProd) }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.priceProd,"Please Choose The price of the product")  }}
+        {{ form_widget(form.priceProd , {'attr':{'class':'form-control'} }) }}
+
+        {{ form_errors(form.priceProd) }}
+
+    </div>
+
+</div>
+
+<div class="form-group">
+    {{ form_label(form.quantite,"Please Choose The quantity ")  }}
+    {{ form_widget(form.quantite , {'attr':{'class':'form-control'} }) }}
+
+    {{ form_errors(form.quantite) }}
+
+</div>
+
+<div class="form-group">
+    {{ form_label(form.imageProd,"Please Choose The image you wanna add")  }}
+    {{ form_widget(form.imageProd , {'attr':{'class':'form-control'} }) }}
+
+    {{ form_errors(form.imageProd) }}
+
+</div>
+
+</div>
+
+<div class="form-group">
+    {{ form_label(form.status,"the status is")  }}
+    {{ form_widget(form.status , {'attr':{'class':'form-control'} }) }}
+
+    {{ form_errors(form.status) }}
+
+</div>
+<button class="btn btn-primary text-white py-3 px-4">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+</div>

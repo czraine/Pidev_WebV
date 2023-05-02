@@ -1,0 +1,21 @@
+{% extends 'basefront.html.twig' %}
+
+
+{% block title %}
+<title>New ShoppingCart</title>
+{% endblock %}
+{% block body %}
+    <h1>Create new ShoppingCart</h1>
+
+    {{ include('shopping_cart/_form.html.twig') }}
+
+
+
+
+</br>
+    <a href="{{ path('shopping_cartapp_stripe_charge')}}">
+        checkout
+    </a>
+
+
+{% endblock %}

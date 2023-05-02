@@ -1,0 +1,62 @@
+
+
+
+
+{% block body %}
+
+<div style="margin: 0 auto;display: block;width: 400px;">
+    <div style="margin: 0 auto;display: block;width: 400px;">
+        <table width="100%" border="1">
+
+
+                                <table class="table" id="myTable">
+                                    <thead>
+                                    <tr>
+                                        <th>IdProduit</th>
+                                        <th>NameProd</th>
+                                        <th>ProdDescription</th>
+                                        <th>TypeProd</th>
+                                        <th>PriceProd</th>
+                                        <th>Quantité</th>
+                                        <th>ImageProd</th>
+                                        <th>Status</th>
+                                        <th>actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="myTable">
+                                    {% for produit in produits %}
+                                        <tr>
+                                            <td>{{ produit.idProduit }}</td>
+                                            <td>{{ produit.nameProd }}</td>
+                                            <td>{{ produit.prodDescription }}</td>
+                                            <td>{{ produit.typeProd }}</td>
+                                            <td>{{ produit.priceProd }}</td>
+                                            <td>{{ produit.quantite }}</td>
+                                            <td><img src="{{ asset('/uploads/' ~ produit.imageProd) }}" style="width: 50%; height: auto;"></td>
+                                            <td>{{ produit.status }}</td>
+                                            <td>
+
+
+                                                <a class="btn btn-primary btn-sm" href="{{ path('app_produit_show', {'idProduit': produit.idProduit}) }}">
+                                                    <i class="fas fa-folder"></i>View</a>
+                                                <a class="btn btn-info btn-sm" href="{{ path('app_produit_edit', {'idProduit': produit.idProduit}) }}">
+                                                    <i class="fas fa-pencil-alt"></i>Edit</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="9">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+
+
+
+
+
+
+{% endblock %}
+
+

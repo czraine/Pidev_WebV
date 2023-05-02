@@ -1,0 +1,61 @@
+<table id="example2" class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <th>PlaceId</th>
+                <td>{{ placetovisit.placeId }}</td>
+            </tr>
+            <tr>
+                <th>PlaceName</th>
+                <td>{{ placetovisit.placeName }}</td>
+            </tr>
+            <tr>
+                <th>Cityname</th>
+                <td>{{ placetovisit.cityname }}</td>
+            </tr>
+            <tr>
+                <th>PlaceType</th>
+                <td>{{ placetovisit.placeType }}</td>
+            </tr>
+            <tr>
+                <th>PlaceDescription</th>
+                <td>{{ placetovisit.placeDescription }}</td>
+            </tr>
+            <tr>
+                <th>PlaceAddress</th>
+                <td>{{ placetovisit.placeAddress }}</td>
+            </tr>
+            <tr>
+                <th>TicketsPrice</th>
+                <td>{{ placetovisit.ticketsPrice }}</td>
+            </tr>
+            <tr>
+                <th>PlaceImg</th>
+
+   <td>
+    {% if image_data is not empty %}
+        <img src="{{ image_data }}" alt="Place Image ">
+    {% endif %}
+    </td>
+
+
+            </tr>
+            <tr>
+                <th>PlaceImg2</th>
+                <td>
+                    {% if image_data is not empty %}
+                        <img src="{{ image_data2 }}" alt="Place Image 2">
+                    {% endif %}
+                </td>
+                <td>
+            </tr>
+            <tr>
+                <th>PlaceImg3</th>
+                <td>
+                    {% if image_data is not empty %}
+                        <img src="{{ image_data3 }}" alt="Place Image 3">
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+        
+    </table>

@@ -1,0 +1,126 @@
+{% extends 'place_reviews/base.html.twig' %}
+
+{% block title %}PlaceReviews index{% endblock %}
+
+
+{% block body %}
+
+	<div
+		class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>Place to visite Tables</h1>
+					</div>
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item">
+								<a href="#">Home</a>
+							</li>
+							<li class="breadcrumb-item active">Place to visite Tables</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			<!-- /.container-fluid -->
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-14">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">DataTable of Place to visite</h3>
+							</div>
+							<!-- /.card-header -->
+							<div class="card-body">
+								<table id="example2" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ReviewId</th>
+                <th>PlaceName</th>
+                <th>Rating</th>
+                <th>ReviewTxt</th>
+                <th>ReviewDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for place_review in place_reviews %}
+            <tr>
+                <td>{{ place_review.Id }}</td>
+                <td>{{ place_review.placeName }}</td>
+                <td>{{ place_review.rating }}</td>
+                <td>{{ place_review.reviewTxt }}</td>
+                <td>{{ place_review.reviewDate ? place_review.reviewDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_place_reviews_show', {'id': place_review.id}) }}">show</a>
+                    <a href="{{ path('app_place_reviews_edit', {'id': place_review.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+								</tbody>
+
+							</table>
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+<!-- jQuery -->
+<script src="{{ asset('../../plugins/jquery/jquery.min.js')}}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('../../plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('../../plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('../../plugins/jszip/jszip.min.js')}}"></script>
+<script src="{{ asset('../../plugins/pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{ asset('../../plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+<script src="{{ asset('../../plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('../../dist/js/adminlte.min.js')}}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('../../dist/js/demo.js')}}"></script>
+<!-- Page specific script -->
+<script>
+	$(function () {
+$("#example1").DataTable({
+"responsive": true,
+"lengthChange": true,
+"autoWidth": true,
+"buttons": [
+"copy",
+"csv",
+"excel",
+"pdf",
+"print",
+"colvis"
+]
+}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+$('#example2').DataTable({
+"paging": false,
+"lengthChange": false,
+"searching": false,
+"ordering": true,
+"info": false,
+"autoWidth": false,
+"responsive": true
+}).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+});
+</script>
+{% endblock %}

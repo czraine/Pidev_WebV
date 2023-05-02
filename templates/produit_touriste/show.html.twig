@@ -1,0 +1,77 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+        {% block body %}
+            <table>
+            <div class="container">
+
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+
+                                    <section class="content">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card card-primary">
+                                </div>
+
+
+                                                    <!-- Content here -->
+                                <table class="table">
+                                    <tbody>
+
+                                    <tr>
+                                        <th>NameProd</th>
+                                        <td>{{ produit.nameProd }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ProdDescription</th>
+                                        <td>{{ produit.prodDescription }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>TypeProd</th>
+                                        <td>{{ produit.typeProd }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>PriceProd</th>
+                                        <td>{{ produit.priceProd }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Quantité</th>
+                                        <td>{{ produit.quantite }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ImageProd</th>
+                                        <td><img src="{{ asset('/uploads/' ~ produit.imageProd) }}" style="width: 50%; height: auto;"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>{{ produit.status }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                              <a href="{{ path('shopping_cartapp_shopping_cart_new')  }}"> Add to my shopping Cart</a>
+
+                                                <!-- Bouton "Back to list" -->
+                                    </ol>
+                                </div>
+                            </div>
+                        </div><!-- /.container-fluid -->
+                    </section>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card card-primary">
+                                    <!-- Content here -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            </table>
+
+{% endblock %}

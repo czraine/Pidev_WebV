@@ -1,0 +1,13 @@
+{# {% extends 'base.html.twig' %} #}
+
+{% block body %}
+  <h1>Currency Exchange</h1>
+
+  {{ form_start(form) }}
+  {{ form_row(form.amount) }}
+  {{ form_row(form.from_currency) }}
+  {{ form_row(form.to_currency) }}
+  {{ form_widget(form.submit) }}
+  {{ form_end(form) }}
+
+{% endblock %}

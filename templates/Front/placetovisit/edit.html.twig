@@ -1,0 +1,112 @@
+{% extends 'Front/base.html.twig' %}
+{% block title %}edit Placetovisit{% endblock %}
+
+{% block body %}
+    <h1>Create new Placetovisit</h1>
+         <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>User Edit</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active"> edit Placetovisit </li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">General</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+ 
+              <div class="form-group">
+<table id="example2" class="table table-bordered table-hover">
+        <tbody>
+{% if app.session.flashBag.has('success') %}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {% for message in app.flashes('success') %}
+                            {{ message|trans }}
+                        {% endfor %}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <script>
+                    //5 sec bech thidde
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const alert = document.querySelector('.alert');
+                            alert.classList.add('show');
+                            setTimeout(function() {
+                                alert.classList.remove('show');
+                            }, 5000);
+                        });
+                    </script>
+                {% endif %}
+{% if not form.vars.valid %}
+            <div class="alert alert-danger" role="alert">
+                {{ form_errors(form.placeName, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.cityname, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.placeType, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.placeDescription, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.placeAddress, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ticketsPrice, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.placeImg, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.placeImg2, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.placeImg3, {'attr': {'class': 'form-control'}}) }}
+            </div>
+    {% endif %}
+    {{ form_start(form) }}
+        {{ form_row(form.placeName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.cityname, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.placeType, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.placeDescription, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.placeAddress, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.ticketsPrice, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.placeImg, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.placeImg2, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(form.placeImg3, {'attr': {'class': 'form-control'}}) }}
+           {{ form_start(form) }}
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+        <a href="{{ path('front_placetovisit_index') }}" class="btn btn-link">
+            <i class="fa fa-list-alt" aria-hidden="true"></i> {{ 'back to list' }}
+        </a>
+    {{ form_end(form) }}
+     </div>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+ 
+      </div>
+      <div class="row">
+
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{# {% extends 'base_email.html.twig' %} #}
+
+{% block body %}
+    <p>Dear {{ username }},</p>
+    <p>We would like to inform you that your rate has been successfully submitted.</p>
+    <p>Thank you for taking the time to rate our services.</p>
+    <p>Best regards,</p>
+    <p>The RoadRevel team</p>
+{% endblock %}
+{# {% for rateform in ratesform %}
+                <td>{{ rateform.placeName }}</td>
+                <td>{{ rateform.rating }}</td>
+                <td>{{ rateform.reviewTxt }}</td>
+{% endfor %} #}
